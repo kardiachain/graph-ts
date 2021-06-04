@@ -97,7 +97,7 @@ export namespace ethereum {
       let valueArray = this.toArray()
       let out = new Array<T>(valueArray.length)
       for (let i: i32 = 0; i < valueArray.length; i++) {
-        out[i] = valueArray[i].toTuple() as T
+        out[i] = changetype<T>(valueArray[i].toTuple())
       }
       return out
     }
@@ -452,7 +452,7 @@ export namespace ethereum {
           name +
           '` to handle this in the mapping.',
       )
-      return result as Array<Value>
+      return changetype<Array<Value>>(result)
     }
 
     tryCall(
@@ -465,7 +465,7 @@ export namespace ethereum {
       if (result == null) {
         return new CallResult()
       } else {
-        return CallResult.fromValue(result as Array<Value>)
+        return CallResult.fromValue(changetype<Array<Value>>(result))
       }
     }
   }
@@ -494,7 +494,7 @@ export namespace ethereum {
         'accessed value of a reverted call, ' +
           'please check the `reverted` field before accessing the `value` field',
       )
-      return (this._value as Wrapped<T>).inner
+      return changetype<Wrapped<T>>(this._value).inner
     }
   }
 }
