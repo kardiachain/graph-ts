@@ -1,5 +1,5 @@
-import * from '../index'
-import * from '../chain/ethereum'
+import { BigDecimal, TypedMapEntry, JSONValue, Value, Entity, TypedMap, Result, Wrapped } from '../index'
+import { ethereum } from '../chain/ethereum'
 
 export enum TypeId {
   String = 0,

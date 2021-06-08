@@ -936,14 +936,14 @@ export class Value {
   static fromArray(input: Array<Value>): Value {
     let value = new Value()
     value.kind = ValueKind.ARRAY
-    value.data = input as u64
+    value.data = changetype<u32>(input)
     return value
   }
 
   static fromBigInt(n: BigInt): Value {
     let value = new Value()
     value.kind = ValueKind.BIGINT
-    value.data = n as u64
+    value.data = changetype<u32>(n)
     return value
   }
 
@@ -977,14 +977,14 @@ export class Value {
   static fromString(s: string): Value {
     let value = new Value()
     value.kind = ValueKind.STRING
-    value.data = s as u64
+    value.data = changetype<u32>(s)
     return value
   }
 
   static fromAddress(s: Address): Value {
     let value = new Value()
     value.kind = ValueKind.BYTES
-    value.data = s as u64
+    value.data = changetype<u32>(s)
     return value
   }
 
@@ -1043,15 +1043,15 @@ export class Entity extends TypedMap<string, Value> {
   }
 
   getString(key: string): string {
-    return this.get(key).toString()
+    return this.get(key)!.toString()
   }
 
   getI32(key: string): i32 {
-    return this.get(key).toI32()
+    return this.get(key)!.toI32()
   }
 
   getBigInt(key: string): BigInt {
-    return this.get(key).toBigInt()
+    return this.get(key)!.toBigInt()
   }
 
   getBytes(key: string): Bytes {
