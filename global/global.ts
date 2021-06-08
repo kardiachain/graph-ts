@@ -1,3 +1,6 @@
+import * from '../index'
+import * from '../chain/ethereum'
+
 export enum TypeId {
   String = 0,
   ArrayBuffer = 1,
