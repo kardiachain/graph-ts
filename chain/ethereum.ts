@@ -359,7 +359,7 @@ export namespace ethereum {
     difficulty: BigInt
     totalDifficulty: BigInt
     size: BigInt | null
-    transactions: [Transaction]
+    transactions: Array<Transaction>
     rewards: BigInt
   }
 
