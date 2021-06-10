@@ -1,5 +1,5 @@
 {
-  "name": "@graphprotocol/graph-ts",
+  "name": "@kardiachain/graph-ts",
   "description": "TypeScript/AssemblyScript library for writing subgraph mappings for The Graph",
   "version": "0.20.0",
   "module": "index.ts",
