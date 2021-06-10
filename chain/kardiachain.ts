@@ -1,14 +1,14 @@
 import { Address, BigInt, Bytes, Wrapped } from '..'
 
-/** Host kardiachain interface */
-export declare namespace kardiachain {
+/** Host Ethereum interface */
+export declare namespace ethereum {
   function call(call: SmartContractCall): Array<Value> | null
   function encode(token: Value): Bytes | null
   function decode(types: String, data: Bytes): Value | null
 }
 
-export namespace kardiachain {
-  /** Type hint for KardiaChain values. */
+export namespace ethereum {
+  /** Type hint for Ethereum values. */
   export enum ValueKind {
     ADDRESS = 0,
     FIXED_BYTES = 1,
@@ -23,33 +23,33 @@ export namespace kardiachain {
   }
 
   /**
-   * Pointer type for KardiaChain value data.
+   * Pointer type for Ethereum value data.
    *
    * Big enough to fit any pointer or native `this.data`.
    */
   export type ValuePayload = u64
 
   /**
-   * A dynamically typed value used when accessing KardiaChain data.
+   * A dynamically typed value used when accessing Ethereum data.
    */
   export class Value {
     kind: ValueKind
     data: ValuePayload
 
     toAddress(): Address {
-      assert(this.kind == ValueKind.ADDRESS, 'KardiaChain value is not an address')
+      assert(this.kind == ValueKind.ADDRESS, 'Ethereum value is not an address')
       return changetype<Address>(this.data as u32)
     }
 
     toBoolean(): boolean {
-      assert(this.kind == ValueKind.BOOL, 'KardiaChain value is not a boolean.')
+      assert(this.kind == ValueKind.BOOL, 'Ethereum value is not a boolean.')
       return this.data != 0
     }
 
     toBytes(): Bytes {
       assert(
         this.kind == ValueKind.FIXED_BYTES || this.kind == ValueKind.BYTES,
-        'KardiaChain value is not bytes.',
+        'Ethereum value is not bytes.',
       )
       return changetype<Bytes>(this.data as u32)
     }
@@ -57,7 +57,7 @@ export namespace kardiachain {
     toI32(): i32 {
       assert(
         this.kind == ValueKind.INT || this.kind == ValueKind.UINT,
-        'KardiaChain value is not an int or uint.',
+        'Ethereum value is not an int or uint.',
       )
       let bigInt = changetype<BigInt>(this.data as u32)
       return bigInt.toI32()
@@ -66,33 +66,33 @@ export namespace kardiachain {
     toBigInt(): BigInt {
       assert(
         this.kind == ValueKind.INT || this.kind == ValueKind.UINT,
-        'KardiaChain value is not an int or uint.',
+        'Ethereum value is not an int or uint.',
       )
       return changetype<BigInt>(this.data as u32)
     }
 
     toString(): string {
-      assert(this.kind == ValueKind.STRING, 'KardiaChain value is not a string.')
+      assert(this.kind == ValueKind.STRING, 'Ethereum value is not a string.')
       return changetype<string>(this.data as u32)
     }
 
     toArray(): Array<Value> {
       assert(
         this.kind == ValueKind.ARRAY || this.kind == ValueKind.FIXED_ARRAY,
-        'KardiaChain value is not an array.',
+        'Ethereum value is not an array.',
       )
       return changetype<Array<Value>>(this.data as u32)
     }
 
     toTuple(): Tuple {
-      assert(this.kind == ValueKind.TUPLE, 'KardiaChain value is not a tuple.')
+      assert(this.kind == ValueKind.TUPLE, 'Ethereum value is not a tuple.')
       return changetype<Tuple>(this.data as u32)
     }
 
     toTupleArray<T extends Tuple>(): Array<T> {
       assert(
         this.kind == ValueKind.ARRAY || this.kind == ValueKind.FIXED_ARRAY,
-        'KardiaChain value is not an array.',
+        'Ethereum value is not an array.',
       )
       let valueArray = this.toArray()
       let out = new Array<T>(valueArray.length)
@@ -105,7 +105,7 @@ export namespace kardiachain {
     toBooleanArray(): Array<boolean> {
       assert(
         this.kind == ValueKind.ARRAY || this.kind == ValueKind.FIXED_ARRAY,
-        'KardiaChain value is not an array or fixed array.',
+        'Ethereum value is not an array or fixed array.',
       )
       let valueArray = this.toArray()
       let out = new Array<boolean>(valueArray.length)
@@ -118,7 +118,7 @@ export namespace kardiachain {
     toBytesArray(): Array<Bytes> {
       assert(
         this.kind == ValueKind.ARRAY || this.kind == ValueKind.FIXED_ARRAY,
-        'KardiaChain value is not an array or fixed array.',
+        'Ethereum value is not an array or fixed array.',
       )
       let valueArray = this.toArray()
       let out = new Array<Bytes>(valueArray.length)
@@ -131,7 +131,7 @@ export namespace kardiachain {
     toAddressArray(): Array<Address> {
       assert(
         this.kind == ValueKind.ARRAY || this.kind == ValueKind.FIXED_ARRAY,
-        'KardiaChain value is not an array or fixed array.',
+        'Ethereum value is not an array or fixed array.',
       )
       let valueArray = this.toArray()
       let out = new Array<Address>(valueArray.length)
@@ -144,7 +144,7 @@ export namespace kardiachain {
     toStringArray(): Array<string> {
       assert(
         this.kind == ValueKind.ARRAY || this.kind == ValueKind.FIXED_ARRAY,
-        'KardiaChain value is not an array or fixed array.',
+        'Ethereum value is not an array or fixed array.',
       )
       let valueArray = this.toArray()
       let out = new Array<string>(valueArray.length)
@@ -157,7 +157,7 @@ export namespace kardiachain {
     toI32Array(): Array<i32> {
       assert(
         this.kind == ValueKind.ARRAY || this.kind == ValueKind.FIXED_ARRAY,
-        'KardiaChain value is not an array or fixed array.',
+        'Ethereum value is not an array or fixed array.',
       )
       let valueArray = this.toArray()
       let out = new Array<i32>(valueArray.length)
@@ -170,7 +170,7 @@ export namespace kardiachain {
     toBigIntArray(): Array<BigInt> {
       assert(
         this.kind == ValueKind.ARRAY || this.kind == ValueKind.FIXED_ARRAY,
-        'KardiaChain value is not an array or fixed array.',
+        'Ethereum value is not an array or fixed array.',
       )
       let valueArray = this.toArray()
       let out = new Array<BigInt>(valueArray.length)
@@ -333,7 +333,7 @@ export namespace kardiachain {
   }
 
   /**
-   * Common representation for KardiaChain tuples / Solidity structs.
+   * Common representation for Ethereum tuples / Solidity structs.
    *
    * This base class stores the tuple/struct values in an array. The Graph CLI
    * code generation then creates subclasses that provide named getters to
@@ -342,7 +342,7 @@ export namespace kardiachain {
   export class Tuple extends Array<Value> {}
 
   /**
-   * An KardiaChain block.
+   * An Ethereum block.
    */
   export class Block {
     hash: Bytes
@@ -364,7 +364,7 @@ export namespace kardiachain {
   }
 
   /**
-   * An KardiaChain transaction.
+   * An Ethereum transaction.
    */
   export class Transaction {
     hash: Bytes
@@ -378,7 +378,7 @@ export namespace kardiachain {
   }
 
   /**
-   * Common representation for KardiaChain smart contract calls.
+   * Common representation for Ethereum smart contract calls.
    */
   export class Call {
     to: Address
@@ -390,7 +390,7 @@ export namespace kardiachain {
   }
 
   /**
-   * Common representation for KardiaChain smart contract events.
+   * Common representation for Ethereum smart contract events.
    */
   export class Event {
     address: Address
@@ -403,7 +403,7 @@ export namespace kardiachain {
   }
 
   /**
-   * A dynamically-typed KardiaChain event parameter.
+   * A dynamically-typed Ethereum event parameter.
    */
   export class EventParam {
     name: string
@@ -433,7 +433,7 @@ export namespace kardiachain {
   }
 
   /**
-   * Low-level interaction with KardiaChain smart contracts
+   * Low-level interaction with Ethereum smart contracts
    */
   export class SmartContract {
     _name: string
@@ -446,7 +446,7 @@ export namespace kardiachain {
 
     call(name: string, signature: string, params: Array<Value>): Array<Value> {
       let call = new SmartContractCall(this._name, this._address, name, signature, params)
-      let result = KardiaChain.call(call)
+      let result = ethereum.call(call)
       assert(
         result != null,
         'Call reverted, probably because an `assert` or `require` in the contract failed, ' +
@@ -463,7 +463,7 @@ export namespace kardiachain {
       params: Array<Value>,
     ): CallResult<Array<Value>> {
       let call = new SmartContractCall(this._name, this._address, name, signature, params)
-      let result = KardiaChain.call(call)
+      let result = ethereum.call(call)
       if (result == null) {
         return new CallResult()
       } else {

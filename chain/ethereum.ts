@@ -359,6 +359,8 @@ export namespace ethereum {
     difficulty: BigInt
     totalDifficulty: BigInt
     size: BigInt | null
+    transactions: [Transaction]
+    rewards: BigInt
   }
 
   /**

@@ -3,7 +3,6 @@ import 'allocator/arena'
 
 // Ethereum support
 export * from './chain/ethereum'
-export * from './chain/kardiachain'
 
 /**
  * Host store interface.
